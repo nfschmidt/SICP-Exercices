@@ -6,17 +6,23 @@
   (+ (square x) (square y)))
 
 
-(define (greater x y)
-  (if (> x y)
-      x
-      y))
+(define (greatest x y z)
+  (cond ((and (> x y) (> x z)) x)
+	((and (> y x) (> y z)) y)
+	(else z)))
 
 
-(define (sum-of-squares-of-number-and-greater x y z)
-  (sum-of-squares x (greater y z)))
+(define (is-in-the-middle x y z)
+  (or (and (> x y) (< x z))
+      (and (> x z) (< x y))))
+
+
+(define (second-greatest x y z)
+  (cond ((is-in-the-middle x y z) x)
+	((is-in-the-middle y x z) y)
+	(else z)))
 
 
 (define (sum-of-squares-of-two-larger x y z)
-  (cond ((and (> x y) (> x z)) (sum-of-squares-of-number-and-greater x y z))
-	((and (> y x) (> y z)) (sum-of-squares-of-number-and-greater y x z))
-	(else (sum-of-squares-of-number-and-greater z x y))))
+  (sum-of-squares (greatest x y z)
+		  (second-greatest x y z)))
